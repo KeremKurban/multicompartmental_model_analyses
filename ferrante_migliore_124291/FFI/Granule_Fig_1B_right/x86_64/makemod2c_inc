@@ -1,0 +1,32 @@
+./fna.c: ../fna.mod
+	@printf " -> $(C_GREEN)NMODL$(C_RESET) $<\\n"
+	(cd "..";  MODLUNIT=$(NRNUNITS) $(NOCMODL) "fna.mod" -o "/home/kurban/Documents/NEURON/ferrante_migliore_124291/FFI/Granule_Fig_1B_right/x86_64")
+
+./fna.o: ./fna.c
+	@printf " -> $(C_GREEN)Compiling$(C_RESET) $<\\n"
+	$(COMPILE) -I".." $(INCLUDES) -fPIC -c $< -o $@
+
+./ichan2.c: ../ichan2.mod
+	@printf " -> $(C_GREEN)NMODL$(C_RESET) $<\\n"
+	(cd "..";  MODLUNIT=$(NRNUNITS) $(NOCMODL) "ichan2.mod" -o "/home/kurban/Documents/NEURON/ferrante_migliore_124291/FFI/Granule_Fig_1B_right/x86_64")
+
+./ichan2.o: ./ichan2.c
+	@printf " -> $(C_GREEN)Compiling$(C_RESET) $<\\n"
+	$(COMPILE) -I".." $(INCLUDES) -fPIC -c $< -o $@
+
+./kdr.c: ../kdr.mod
+	@printf " -> $(C_GREEN)NMODL$(C_RESET) $<\\n"
+	(cd "..";  MODLUNIT=$(NRNUNITS) $(NOCMODL) "kdr.mod" -o "/home/kurban/Documents/NEURON/ferrante_migliore_124291/FFI/Granule_Fig_1B_right/x86_64")
+
+./kdr.o: ./kdr.c
+	@printf " -> $(C_GREEN)Compiling$(C_RESET) $<\\n"
+	$(COMPILE) -I".." $(INCLUDES) -fPIC -c $< -o $@
+
+./nmdanetGR.c: ../nmdanetGR.mod
+	@printf " -> $(C_GREEN)NMODL$(C_RESET) $<\\n"
+	(cd "..";  MODLUNIT=$(NRNUNITS) $(NOCMODL) "nmdanetGR.mod" -o "/home/kurban/Documents/NEURON/ferrante_migliore_124291/FFI/Granule_Fig_1B_right/x86_64")
+
+./nmdanetGR.o: ./nmdanetGR.c
+	@printf " -> $(C_GREEN)Compiling$(C_RESET) $<\\n"
+	$(COMPILE) -I".." $(INCLUDES) -fPIC -c $< -o $@
+

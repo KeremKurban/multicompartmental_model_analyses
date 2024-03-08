@@ -1,0 +1,102 @@
+load_file("nrngui.hoc")
+
+
+/* axon morphology */
+
+create axon[6], mfb[5], filext[20]
+
+forall {
+	Ra = 100
+	cm = 1
+
+	insert pas
+	g_pas = 0.00001667 /* 0.00001667 */
+	e_pas = -80
+}
+
+access axon[0]
+
+for i = 0, 5 axon[i] {
+	nseg = 150
+	diam = 0.4
+	L    = 150
+}
+
+for i = 0, 4 mfb[i] {
+	nseg = 7
+	diam = 7
+	L    = 7
+}
+
+for i = 0, 4 {
+	connect mfb[i](0), axon[i](1)
+	connect axon[i+1](0), mfb[i](1)
+}
+
+for i = 0, 19 filext[i] {
+	nseg = 20
+	diam = 0.1
+	L = 20
+}
+
+j = 0
+
+for i = 0, 4 {
+
+	j = 4*i
+
+	connect filext[j](0),   mfb[i](0.4)
+	connect filext[j+1](0), mfb[i](0.6)
+	connect filext[j+2](0), mfb[i](0.4)
+	connect filext[j+3](0), mfb[i](0.6)
+}
+
+
+/* gNa */
+
+forall insert GNa
+forall vthreshold_GNa = -57
+forall ena = 55
+forsec "mfb" gnabar_GNa = 0.0447946    /* S/cm^2 */
+forsec "filext" gnabar_GNa = 0.0447946 /* S/cm^2 */
+forsec "axon" gnabar_GNa = 0.0447946   /* S/cm^2 */
+
+
+/* gK */
+
+forall insert GK
+forall vthreshold_GK = -57
+forall ek = -100
+forsec "mfb" gkbar_GK = 0.00804191    /* S/cm^2*/
+forsec "filext" gkbar_GK = 0.00804191 /* S/cm^2*/
+forsec "axon" gkbar_GK = 0.00804191   /* S/cm^2*/
+
+
+/* gCa */
+
+forsec "mfb" insert GCa
+forsec "mfb" vthreshold_GCa = -57
+forsec "mfb" eca = 75
+forsec "mfb" gcabar_GCa = 0.0032 /* S/cm^2*/
+forsec "filext" insert GCa
+forsec "filext" vthreshold_GCa = -57
+forsec "filext" eca = 75
+forsec "filext" gcabar_GCa = 0.0032 /* S/cm^2*/
+
+
+/* current pulse at proximal axon */
+
+objectvar stim
+
+axon[0] stim = new IClamp(0.02)
+stim.del = 0.5
+stim.dur = 0.1
+stim.amp = 0.2
+
+
+/* init and run parameters */
+
+v_init = -80
+dt = 0.002
+steps_per_ms = 500
+tstop = 3

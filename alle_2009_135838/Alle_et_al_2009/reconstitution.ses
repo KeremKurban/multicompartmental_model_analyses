@@ -1,0 +1,102 @@
+{load_file("nrngui.hoc")}
+objectvar save_window_, rvp_
+objectvar scene_vector_[8]
+objectvar ocbox_, ocbox_list_, scene_, scene_list_
+{ocbox_list_ = new List()  scene_list_ = new List()}
+{pwman_place(0,0,0)}
+{
+xpanel("RunControl", 0)
+v_init = -80
+xvalue("Init","v_init", 1,"stdinit()", 1, 1 )
+xbutton("Init & Run","run()")
+xbutton("Stop","stoprun=1")
+runStopAt = 2
+xvalue("Continue til","runStopAt", 1,"{continuerun(runStopAt) stoprun=1}", 1, 1 )
+runStopIn = 0.01
+xvalue("Continue for","runStopIn", 1,"{continuerun(t + runStopIn) stoprun=1}", 1, 1 )
+xbutton("Single Step","steprun()")
+t = 0
+xvalue("t","t", 2 )
+tstop = 3
+xvalue("Tstop","tstop", 1,"tstop_changed()", 0, 1 )
+dt = 0.002
+xvalue("dt","dt", 1,"setdt()", 0, 1 )
+steps_per_ms = 500
+xvalue("Points plotted/ms","steps_per_ms", 1,"setdt()", 0, 1 )
+screen_update_invl = 0.01
+xvalue("Scrn update invl","screen_update_invl", 1,"", 0, 1 )
+realtime = 0
+xvalue("Real Time","realtime", 0,"", 0, 1 )
+xpanel(0,75)
+}
+{
+save_window_ = new Graph(0)
+save_window_.size(-2.98023e-08,3,-80,40)
+scene_vector_[2] = save_window_
+{save_window_.view(-2.98023e-08, -80, 3, 120, 0, 415, 748, 312)}
+graphList[0].append(save_window_)
+save_window_.save_name("graphList[0].")
+save_window_.addexpr("mfb[0].v(0.5)", 2, 1, 0.8, 0.9, 2)
+save_window_.addexpr("mfb[1].v(0.5)", 5, 1, 0.8, 0.9, 2)
+save_window_.addexpr("mfb[2].v(0.5)", 4, 1, 0.8, 0.9, 2)
+save_window_.addexpr("mfb[3].v(0.5)", 3, 1, 0.8, 0.9, 2)
+save_window_.addexpr("mfb[4].v(0.5)", 6, 1, 0.8, 0.9, 2)
+save_window_.addexpr("axon[0].v(0.02)", 1, 1, 0.8, 0.9, 2)
+}
+{
+save_window_ = new PlotShape(0)
+save_window_.size(-10.0001,940,-128.104,128.104)
+save_window_.variable("v")
+scene_vector_[3] = save_window_
+{save_window_.view(-10.0001, -128.104, 950, 256.208, 0, 753, 749, 202)}
+fast_flush_list.append(save_window_)
+save_window_.save_name("fast_flush_list.")
+}
+{
+save_window_ = new Graph(0)
+save_window_.size(0,935,-80,40)
+scene_vector_[4] = save_window_
+{save_window_.view(0, -80, 935, 120, 753, 754, 493, 201)}
+flush_list.append(save_window_)
+save_window_.save_name("flush_list.")
+objectvar rvp_
+rvp_ = new RangeVarPlot("v")
+axon[0] rvp_.begin(0)
+axon[5] rvp_.end(1)
+rvp_.origin(0)
+save_window_.addobject(rvp_, 2, 1, 0.8, 0.9)
+}
+{
+save_window_ = new Graph(0)
+save_window_.size(1,2.5,-2.6,1.8)
+scene_vector_[5] = save_window_
+{save_window_.view(1, -2.6, 1.5, 4.4, 751, 76, 494, 313)}
+graphList[1].append(save_window_)
+save_window_.save_name("graphList[1].")
+save_window_.addexpr("mfb[2].ina(0.5)", 2, 1, 0.8, 0.9, 2)
+save_window_.addexpr("mfb[2].ik(0.5)", 3, 1, 0.8, 0.9, 2)
+save_window_.addexpr("mfb[2].ica(0.5)", 4, 1, 0.8, 0.9, 2)
+save_window_.addexpr("mfb[2].i_cap(0.5)", 1, 1, 0.8, 0.9, 2)
+}
+{
+save_window_ = new Graph(0)
+save_window_.size(1,2.5,-80,40)
+scene_vector_[6] = save_window_
+{save_window_.view(1, -80, 1.5, 120, 752, 415, 494, 313)}
+graphList[2].append(save_window_)
+save_window_.save_name("graphList[2].")
+save_window_.addexpr("mfb[2].v(0.5)", 1, 1, 0.8, 0.9, 2)
+}
+{
+save_window_ = new Graph(0)
+save_window_.size(1,2.5,0,1)
+scene_vector_[7] = save_window_
+{save_window_.view(1, 0, 1.5, 1, 252, 76, 495, 313)}
+graphList[3].append(save_window_)
+save_window_.save_name("graphList[3].")
+save_window_.addexpr("mfb[2].gt_GNa(0.5)", 2, 1, 0.7, 0.9, 2)
+save_window_.addexpr("mfb[2].gt_GK(0.5)", 3, 1, 0.7, 0.9, 2)
+save_window_.addexpr("mfb[2].gt_GCa(0.5)", 4, 1, 0.7, 0.9, 2)
+}
+objectvar scene_vector_[1]
+{doNotify()}

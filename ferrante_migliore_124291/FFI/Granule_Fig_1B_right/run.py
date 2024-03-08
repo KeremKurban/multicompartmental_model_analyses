@@ -33,11 +33,11 @@ h.xopen("fixnseg.hoc")
 # Create an IClamp object at the middle of the first soma
 stim = h.IClamp(h.soma[1](0.5))
 stim.delay = 100  # Start time of the current injection
-stim.dur = 20000  # Duration of the current injection
-stim.amp = 5   # Amplitude of the current injection, set as needed
+stim.dur = 2000  # Duration of the current injection
+stim.amp = 0.05   # Amplitude of the current injection, set as needed
 
 # Set the stop time of the simulation
-tstop = 21000
+tstop = 3000
 
 # Create an APCount object to count action potentials
 apc = h.APCount(h.soma[1](0.5))
@@ -147,13 +147,3 @@ if tempo.size() > 9:
     print("Stimulation amplitude:", stim.amp, "nA ==> Frequency:", frequency, "Hz")
 else:
     print("Stimulation amplitude:", stim.amp, "nA ==> Insufficient action potentials to calculate frequency.")
-
-
-
-def print_results():
-    # Check if the 'tempo' vector has more than 9 elements before attempting to calculate frequency
-    if tempo.size() > 9:
-        frequency = (tempo.size() - 9) * (1000 / (tempo.x[tempo.size() - 1] - tempo.x[9]))
-        print("Stimulation amplitude:", stim.amp, "nA ==> Frequency:", frequency, "Hz")
-    else:
-        print("Stimulation amplitude:", stim.amp, "nA ==> Insufficient action potentials to calculate frequency.")

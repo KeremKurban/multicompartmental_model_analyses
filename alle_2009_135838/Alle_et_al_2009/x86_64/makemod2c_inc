@@ -1,0 +1,32 @@
+./GCa.c: ../GCa.mod
+	@printf " -> $(C_GREEN)NMODL$(C_RESET) $<\\n"
+	(cd "..";  MODLUNIT=$(NRNUNITS) $(NOCMODL) "GCa.mod" -o "/home/kurban/Documents/neuron_examples/alle_2009_135838/Alle_et_al_2009/x86_64")
+
+./GCa.o: ./GCa.c
+	@printf " -> $(C_GREEN)Compiling$(C_RESET) $<\\n"
+	$(COMPILE) -I".." $(INCLUDES) -fPIC -c $< -o $@
+
+./GK.c: ../GK.mod
+	@printf " -> $(C_GREEN)NMODL$(C_RESET) $<\\n"
+	(cd "..";  MODLUNIT=$(NRNUNITS) $(NOCMODL) "GK.mod" -o "/home/kurban/Documents/neuron_examples/alle_2009_135838/Alle_et_al_2009/x86_64")
+
+./GK.o: ./GK.c
+	@printf " -> $(C_GREEN)Compiling$(C_RESET) $<\\n"
+	$(COMPILE) -I".." $(INCLUDES) -fPIC -c $< -o $@
+
+./GNa.c: ../GNa.mod
+	@printf " -> $(C_GREEN)NMODL$(C_RESET) $<\\n"
+	(cd "..";  MODLUNIT=$(NRNUNITS) $(NOCMODL) "GNa.mod" -o "/home/kurban/Documents/neuron_examples/alle_2009_135838/Alle_et_al_2009/x86_64")
+
+./GNa.o: ./GNa.c
+	@printf " -> $(C_GREEN)Compiling$(C_RESET) $<\\n"
+	$(COMPILE) -I".." $(INCLUDES) -fPIC -c $< -o $@
+
+./peak.c: ../peak.mod
+	@printf " -> $(C_GREEN)NMODL$(C_RESET) $<\\n"
+	(cd "..";  MODLUNIT=$(NRNUNITS) $(NOCMODL) "peak.mod" -o "/home/kurban/Documents/neuron_examples/alle_2009_135838/Alle_et_al_2009/x86_64")
+
+./peak.o: ./peak.c
+	@printf " -> $(C_GREEN)Compiling$(C_RESET) $<\\n"
+	$(COMPILE) -I".." $(INCLUDES) -fPIC -c $< -o $@
+

@@ -1,0 +1,116 @@
+load_file("nrngui.hoc")
+cvode_active(0)
+
+Vrest = -74
+
+dt = 0.1
+gna = 0.2
+gk = 0.06
+
+celsius = 22.0  //temperature change not implemented
+
+Rm = 6000
+Cm    = 2.5
+
+RaAll= 200
+RaAx = 50
+numaxon=1
+numsoma=4
+numdend=32
+
+xopen("n500-axon.hoc")
+xopen("fixnseg.hoc")           
+
+// Insert the PlotShape object here
+objref psh
+psh = new PlotShape()
+psh.variable("v") // Set the variable to visualize, e.g., membrane potential (v)
+psh.scale(-80, 60)
+psh.exec_menu("Shape Plot")
+h.flush_list.append(psh) // Add the PlotShape to the flush list for updating
+
+objref stim, apc, b, g, apct, tempo, nil
+
+forsec "axon" {insert pas e_pas=Vrest g_pas = 1/Rm Ra=RaAx cm=Cm}
+forsec "soma" {insert pas e_pas=Vrest g_pas = 1/Rm Ra=RaAll cm=Cm}
+forsec "dend" {insert pas e_pas=Vrest g_pas = 1/Rm Ra=RaAll cm=Cm}
+
+geom_nseg()
+tot=0
+forall {tot=tot+nseg}
+distance()
+
+maxdist=0
+forsec "dend" for(x) {if (distance(x)>maxdist) {maxdist=distance(x)}}
+
+access soma[1]
+
+stim = new IClamp(0.5)
+stim.del=10
+stim.dur=200
+
+tstop=200
+
+access soma[1]
+distance()
+
+apc = new APCount(0.5)
+apc.thresh=-20
+
+tempo = new Vector()
+
+soma {
+apct = new NetCon(&v(0.5),nil,0,0,0)
+apct.record(tempo)
+}
+    
+forall { 
+    insert ichan2  
+    gnatbar_ichan2=gna
+    gkfbar_ichan2=gk
+    gl_ichan2 = 0.0
+}
+
+forsec "dend" {
+    gnatbar_ichan2=gna/3
+    gkfbar_ichan2=gk
+}
+
+b = new VBox()
+b.intercept(1)
+g = new Graph()
+g.size(0,tstop,-80,20)
+g.xaxis(1)
+g.exec_menu("10% Zoom out")
+g.addexpr("Granule v_soma","soma.v(0.5)",1,1, 0.2,0.9,2)
+xpanel("",1)
+xbutton("init & run", "runa()")
+xvalue("stim.amp")
+xpanel()
+b.intercept(0)
+b.map()
+
+cvode.re_init()
+
+proc advance() {
+	fadvance()
+	g.plot(t)
+	g.flush()
+	doNotify()
+}
+
+proc init() {
+    t=0
+    forall {enat = 55 ekf = -90  eks = -90  v=Vrest}
+    finitialize(Vrest)
+    fcurrent()
+    forall {e_pas=Vrest+(inat_ichan2+ikf_ichan2)/g_pas}
+    cvode.re_init()
+}
+
+proc runa() {
+run()
+print "stim.amp ", stim.amp, "nA ==> ", ((tempo.size)-9)*(1000/(tempo.x[tempo.size-1]-tempo.x[9])), "Hz "
+g.begin()
+init()
+}

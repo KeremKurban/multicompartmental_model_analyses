@@ -1,0 +1,168 @@
+./BK.c: ../lib_mech//BK.mod
+	@printf " -> $(C_GREEN)NMODL$(C_RESET) $<\\n"
+	(cd "../lib_mech";  MODLUNIT=$(NRNUNITS) $(NOCMODL) "BK.mod" -o "/home/kurban/Documents/neuron_examples/beining_cuntz_231818/BeiningEtAl2017nrn/x86_64")
+
+./BK.o: ./BK.c
+	@printf " -> $(C_GREEN)Compiling$(C_RESET) $<\\n"
+	$(COMPILE) -I"../lib_mech" $(INCLUDES) -fPIC -c $< -o $@
+
+./Cabuffer.c: ../lib_mech//Cabuffer.mod
+	@printf " -> $(C_GREEN)NMODL$(C_RESET) $<\\n"
+	(cd "../lib_mech";  MODLUNIT=$(NRNUNITS) $(NOCMODL) "Cabuffer.mod" -o "/home/kurban/Documents/neuron_examples/beining_cuntz_231818/BeiningEtAl2017nrn/x86_64")
+
+./Cabuffer.o: ./Cabuffer.c
+	@printf " -> $(C_GREEN)Compiling$(C_RESET) $<\\n"
+	$(COMPILE) -I"../lib_mech" $(INCLUDES) -fPIC -c $< -o $@
+
+./CadepK.c: ../lib_mech//CadepK.mod
+	@printf " -> $(C_GREEN)NMODL$(C_RESET) $<\\n"
+	(cd "../lib_mech";  MODLUNIT=$(NRNUNITS) $(NOCMODL) "CadepK.mod" -o "/home/kurban/Documents/neuron_examples/beining_cuntz_231818/BeiningEtAl2017nrn/x86_64")
+
+./CadepK.o: ./CadepK.c
+	@printf " -> $(C_GREEN)Compiling$(C_RESET) $<\\n"
+	$(COMPILE) -I"../lib_mech" $(INCLUDES) -fPIC -c $< -o $@
+
+./Caold.c: ../lib_mech//Caold.mod
+	@printf " -> $(C_GREEN)NMODL$(C_RESET) $<\\n"
+	(cd "../lib_mech";  MODLUNIT=$(NRNUNITS) $(NOCMODL) "Caold.mod" -o "/home/kurban/Documents/neuron_examples/beining_cuntz_231818/BeiningEtAl2017nrn/x86_64")
+
+./Caold.o: ./Caold.c
+	@printf " -> $(C_GREEN)Compiling$(C_RESET) $<\\n"
+	$(COMPILE) -I"../lib_mech" $(INCLUDES) -fPIC -c $< -o $@
+
+./Cav12.c: ../lib_mech//Cav12.mod
+	@printf " -> $(C_GREEN)NMODL$(C_RESET) $<\\n"
+	(cd "../lib_mech";  MODLUNIT=$(NRNUNITS) $(NOCMODL) "Cav12.mod" -o "/home/kurban/Documents/neuron_examples/beining_cuntz_231818/BeiningEtAl2017nrn/x86_64")
+
+./Cav12.o: ./Cav12.c
+	@printf " -> $(C_GREEN)Compiling$(C_RESET) $<\\n"
+	$(COMPILE) -I"../lib_mech" $(INCLUDES) -fPIC -c $< -o $@
+
+./Cav13.c: ../lib_mech//Cav13.mod
+	@printf " -> $(C_GREEN)NMODL$(C_RESET) $<\\n"
+	(cd "../lib_mech";  MODLUNIT=$(NRNUNITS) $(NOCMODL) "Cav13.mod" -o "/home/kurban/Documents/neuron_examples/beining_cuntz_231818/BeiningEtAl2017nrn/x86_64")
+
+./Cav13.o: ./Cav13.c
+	@printf " -> $(C_GREEN)Compiling$(C_RESET) $<\\n"
+	$(COMPILE) -I"../lib_mech" $(INCLUDES) -fPIC -c $< -o $@
+
+./Cav22.c: ../lib_mech//Cav22.mod
+	@printf " -> $(C_GREEN)NMODL$(C_RESET) $<\\n"
+	(cd "../lib_mech";  MODLUNIT=$(NRNUNITS) $(NOCMODL) "Cav22.mod" -o "/home/kurban/Documents/neuron_examples/beining_cuntz_231818/BeiningEtAl2017nrn/x86_64")
+
+./Cav22.o: ./Cav22.c
+	@printf " -> $(C_GREEN)Compiling$(C_RESET) $<\\n"
+	$(COMPILE) -I"../lib_mech" $(INCLUDES) -fPIC -c $< -o $@
+
+./Cav32.c: ../lib_mech//Cav32.mod
+	@printf " -> $(C_GREEN)NMODL$(C_RESET) $<\\n"
+	(cd "../lib_mech";  MODLUNIT=$(NRNUNITS) $(NOCMODL) "Cav32.mod" -o "/home/kurban/Documents/neuron_examples/beining_cuntz_231818/BeiningEtAl2017nrn/x86_64")
+
+./Cav32.o: ./Cav32.c
+	@printf " -> $(C_GREEN)Compiling$(C_RESET) $<\\n"
+	$(COMPILE) -I"../lib_mech" $(INCLUDES) -fPIC -c $< -o $@
+
+./HCN.c: ../lib_mech//HCN.mod
+	@printf " -> $(C_GREEN)NMODL$(C_RESET) $<\\n"
+	(cd "../lib_mech";  MODLUNIT=$(NRNUNITS) $(NOCMODL) "HCN.mod" -o "/home/kurban/Documents/neuron_examples/beining_cuntz_231818/BeiningEtAl2017nrn/x86_64")
+
+./HCN.o: ./HCN.c
+	@printf " -> $(C_GREEN)Compiling$(C_RESET) $<\\n"
+	$(COMPILE) -I"../lib_mech" $(INCLUDES) -fPIC -c $< -o $@
+
+./ichan3.c: ../lib_mech//ichan3.mod
+	@printf " -> $(C_GREEN)NMODL$(C_RESET) $<\\n"
+	(cd "../lib_mech";  MODLUNIT=$(NRNUNITS) $(NOCMODL) "ichan3.mod" -o "/home/kurban/Documents/neuron_examples/beining_cuntz_231818/BeiningEtAl2017nrn/x86_64")
+
+./ichan3.o: ./ichan3.c
+	@printf " -> $(C_GREEN)Compiling$(C_RESET) $<\\n"
+	$(COMPILE) -I"../lib_mech" $(INCLUDES) -fPIC -c $< -o $@
+
+./Kir21.c: ../lib_mech//Kir21.mod
+	@printf " -> $(C_GREEN)NMODL$(C_RESET) $<\\n"
+	(cd "../lib_mech";  MODLUNIT=$(NRNUNITS) $(NOCMODL) "Kir21.mod" -o "/home/kurban/Documents/neuron_examples/beining_cuntz_231818/BeiningEtAl2017nrn/x86_64")
+
+./Kir21.o: ./Kir21.c
+	@printf " -> $(C_GREEN)Compiling$(C_RESET) $<\\n"
+	$(COMPILE) -I"../lib_mech" $(INCLUDES) -fPIC -c $< -o $@
+
+./Kv11.c: ../lib_mech//Kv11.mod
+	@printf " -> $(C_GREEN)NMODL$(C_RESET) $<\\n"
+	(cd "../lib_mech";  MODLUNIT=$(NRNUNITS) $(NOCMODL) "Kv11.mod" -o "/home/kurban/Documents/neuron_examples/beining_cuntz_231818/BeiningEtAl2017nrn/x86_64")
+
+./Kv11.o: ./Kv11.c
+	@printf " -> $(C_GREEN)Compiling$(C_RESET) $<\\n"
+	$(COMPILE) -I"../lib_mech" $(INCLUDES) -fPIC -c $< -o $@
+
+./Kv14.c: ../lib_mech//Kv14.mod
+	@printf " -> $(C_GREEN)NMODL$(C_RESET) $<\\n"
+	(cd "../lib_mech";  MODLUNIT=$(NRNUNITS) $(NOCMODL) "Kv14.mod" -o "/home/kurban/Documents/neuron_examples/beining_cuntz_231818/BeiningEtAl2017nrn/x86_64")
+
+./Kv14.o: ./Kv14.c
+	@printf " -> $(C_GREEN)Compiling$(C_RESET) $<\\n"
+	$(COMPILE) -I"../lib_mech" $(INCLUDES) -fPIC -c $< -o $@
+
+./Kv21.c: ../lib_mech//Kv21.mod
+	@printf " -> $(C_GREEN)NMODL$(C_RESET) $<\\n"
+	(cd "../lib_mech";  MODLUNIT=$(NRNUNITS) $(NOCMODL) "Kv21.mod" -o "/home/kurban/Documents/neuron_examples/beining_cuntz_231818/BeiningEtAl2017nrn/x86_64")
+
+./Kv21.o: ./Kv21.c
+	@printf " -> $(C_GREEN)Compiling$(C_RESET) $<\\n"
+	$(COMPILE) -I"../lib_mech" $(INCLUDES) -fPIC -c $< -o $@
+
+./Kv33.c: ../lib_mech//Kv33.mod
+	@printf " -> $(C_GREEN)NMODL$(C_RESET) $<\\n"
+	(cd "../lib_mech";  MODLUNIT=$(NRNUNITS) $(NOCMODL) "Kv33.mod" -o "/home/kurban/Documents/neuron_examples/beining_cuntz_231818/BeiningEtAl2017nrn/x86_64")
+
+./Kv33.o: ./Kv33.c
+	@printf " -> $(C_GREEN)Compiling$(C_RESET) $<\\n"
+	$(COMPILE) -I"../lib_mech" $(INCLUDES) -fPIC -c $< -o $@
+
+./Kv34.c: ../lib_mech//Kv34.mod
+	@printf " -> $(C_GREEN)NMODL$(C_RESET) $<\\n"
+	(cd "../lib_mech";  MODLUNIT=$(NRNUNITS) $(NOCMODL) "Kv34.mod" -o "/home/kurban/Documents/neuron_examples/beining_cuntz_231818/BeiningEtAl2017nrn/x86_64")
+
+./Kv34.o: ./Kv34.c
+	@printf " -> $(C_GREEN)Compiling$(C_RESET) $<\\n"
+	$(COMPILE) -I"../lib_mech" $(INCLUDES) -fPIC -c $< -o $@
+
+./Kv42b.c: ../lib_mech//Kv42b.mod
+	@printf " -> $(C_GREEN)NMODL$(C_RESET) $<\\n"
+	(cd "../lib_mech";  MODLUNIT=$(NRNUNITS) $(NOCMODL) "Kv42b.mod" -o "/home/kurban/Documents/neuron_examples/beining_cuntz_231818/BeiningEtAl2017nrn/x86_64")
+
+./Kv42b.o: ./Kv42b.c
+	@printf " -> $(C_GREEN)Compiling$(C_RESET) $<\\n"
+	$(COMPILE) -I"../lib_mech" $(INCLUDES) -fPIC -c $< -o $@
+
+./Kv42.c: ../lib_mech//Kv42.mod
+	@printf " -> $(C_GREEN)NMODL$(C_RESET) $<\\n"
+	(cd "../lib_mech";  MODLUNIT=$(NRNUNITS) $(NOCMODL) "Kv42.mod" -o "/home/kurban/Documents/neuron_examples/beining_cuntz_231818/BeiningEtAl2017nrn/x86_64")
+
+./Kv42.o: ./Kv42.c
+	@printf " -> $(C_GREEN)Compiling$(C_RESET) $<\\n"
+	$(COMPILE) -I"../lib_mech" $(INCLUDES) -fPIC -c $< -o $@
+
+./Kv723.c: ../lib_mech//Kv723.mod
+	@printf " -> $(C_GREEN)NMODL$(C_RESET) $<\\n"
+	(cd "../lib_mech";  MODLUNIT=$(NRNUNITS) $(NOCMODL) "Kv723.mod" -o "/home/kurban/Documents/neuron_examples/beining_cuntz_231818/BeiningEtAl2017nrn/x86_64")
+
+./Kv723.o: ./Kv723.c
+	@printf " -> $(C_GREEN)Compiling$(C_RESET) $<\\n"
+	$(COMPILE) -I"../lib_mech" $(INCLUDES) -fPIC -c $< -o $@
+
+./na8st.c: ../lib_mech//na8st.mod
+	@printf " -> $(C_GREEN)NMODL$(C_RESET) $<\\n"
+	(cd "../lib_mech";  MODLUNIT=$(NRNUNITS) $(NOCMODL) "na8st.mod" -o "/home/kurban/Documents/neuron_examples/beining_cuntz_231818/BeiningEtAl2017nrn/x86_64")
+
+./na8st.o: ./na8st.c
+	@printf " -> $(C_GREEN)Compiling$(C_RESET) $<\\n"
+	$(COMPILE) -I"../lib_mech" $(INCLUDES) -fPIC -c $< -o $@
+
+./SK2.c: ../lib_mech//SK2.mod
+	@printf " -> $(C_GREEN)NMODL$(C_RESET) $<\\n"
+	(cd "../lib_mech";  MODLUNIT=$(NRNUNITS) $(NOCMODL) "SK2.mod" -o "/home/kurban/Documents/neuron_examples/beining_cuntz_231818/BeiningEtAl2017nrn/x86_64")
+
+./SK2.o: ./SK2.c
+	@printf " -> $(C_GREEN)Compiling$(C_RESET) $<\\n"
+	$(COMPILE) -I"../lib_mech" $(INCLUDES) -fPIC -c $< -o $@
+

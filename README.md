@@ -1,4 +1,4 @@
-# Analysis of Published mMlticompartmental Models
+# Analysis of Published Multicompartmental Models
 
 Several Published emodels have been analyzed to see if they can be implemented to BBP pipeline
 https://modeldb.science/modellist/257

@@ -41,18 +41,18 @@ print(f'Minimum diameter is {min(all_diams)} um')
 print(f'Maximum diameter is {max(all_diams)} um')
 
 
-# fig = go.Figure()
-# for sec in c.all:
-#     rvp = h.RangeVarPlot('diam', c.soma[0](0.5), sec(1)) #plotting diameter not diam3d
-#     rvp.plot(fig,marker_color='black')
+fig = go.Figure()
+for sec in c.all:
+    rvp = h.RangeVarPlot('diam', c.soma[0](0.5), sec(1)) #plotting diameter not diam3d
+    rvp.plot(fig,marker_color='black')
 
-# fig.update_layout({
-#     "title": sys.argv[1],
-#     "xaxis_title": "Distance from the soma (um)",
-#     "yaxis_title": "Diameter (um)"
-# })
+fig.update_layout({
+    "title": sys.argv[1],
+    "xaxis_title": "Distance from the soma (um)",
+    "yaxis_title": "Diameter (um)"
+})
 
-# fig.show()
+fig.show()
 
 h.pas.insert(c.all)
 for sec in c.all:

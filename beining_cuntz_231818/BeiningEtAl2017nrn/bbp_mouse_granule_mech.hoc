@@ -1,0 +1,360 @@
+/*
+Created by Kerem Kurban for a DG Granule Cell Model of Beining et al 2017
+Incorporates specific ion channel distributions and conductance values for soma, dendrites (IML, MML, OML), axon, and axon hillock based on user specifications.
+*/
+{load_file("stdrun.hoc")}
+{load_file("import3d.hoc")}
+/*
+ * Check that global parameters are the same as with the optimization
+ */
+proc check_parameter(/* name, expected_value, value */){
+  strdef error
+  if($2 != $3){
+    sprint(error, "Parameter %s has different value %f != %f", $s1, $2, $3)
+    execerror(error)
+  }
+}
+
+proc check_simulator() {
+  check_parameter("celsius", 34, celsius)
+  check_parameter("v_init", -80, v_init)
+}
+
+begintemplate template_name
+  public init, morphology, geom_nseg_fixed, geom_nsec, getCell, getCCell, setCCell, gid, getCell
+  public channel_seed, channel_seed_set
+  public connect2target, clear, ASCIIrpt
+  public soma, dend, apic, axon, myelin, getThreshold
+  create soma[1], dend[1], apic[1], axon[1], myelin[1]
+  public nSecAll, nSecSoma, nSecApical, nSecBasal, nSecMyelinated, nSecAxonalOrig, nSecAxonal
+  public CellRef, synHelperList, synlist
+  objref this, CellRef, segCounts, ASCIIrpt, synHelperList, synlist
+
+  objref all, somatic, apical, axonal, basal, hillock
+
+obfunc getCell(){
+        return this
+}
+
+obfunc getCCell(){
+	return CellRef
+}
+proc setCCell(){
+       CellRef = $o1
+}
+
+//-----------------------------------------------------------------------------------------------
+
+/*!
+ * When clearing the model, the circular reference between Cells and CCells must be broken so the
+ * entity watching reference counts can work.
+ */
+proc clear() { localobj nil
+    CellRef = nil
+}
+
+
+
+/*!
+ * @param $o1 NetCon source (can be nil)
+ * @param $o2 Variable where generated NetCon will be placed
+ */
+proc connect2target() { //$o1 target point process, $o2 returned NetCon
+  soma $o2 = new NetCon(&v(1), $o1)
+  $o2.threshold = -30
+}
+
+
+proc init(/* args: morphology_dir, morphology_name */) {
+  all = new SectionList()
+  somatic = new SectionList()
+  apical = new SectionList()
+  basal = new SectionList()
+  axonal = new SectionList()
+  hillock = new SectionList()
+
+  synHelperList = new List()
+  synlist = new List()
+
+//For compatibility with BBP CCells
+  CellRef = this
+
+  forall delete_section()
+
+  gid = $1
+
+  if(numarg() >= 3) {
+    load_morphology($s2, $s3)
+  } else {
+    load_morphology($s2, "default_morphology.asc")
+  }
+
+  geom_nseg()
+  indexSections()
+  insertChannels()
+  setupBiophysics()
+
+// Initialize channel_seed_set to avoid accidents
+  channel_seed_set = 0
+// Initialize random number generators
+  re_init_rng()
+}
+
+/*!
+ * Assign section indices to the section voltage value.  This will be useful later for serializing
+ * the sections into an array.  Note, that once the simulation begins, the voltage values will revert to actual data again.
+ *
+ * @param $o1 Import3d_GUI object
+ */
+proc indexSections() { local index
+  index = 0
+  forsec all {
+    v(0.0001) = index
+    index = index +1
+  }
+}
+
+func getThreshold() { return 0.0 }
+
+proc load_morphology(/* morphology_dir, morphology_name */) {localobj morph, import, sf, extension
+  strdef morph_path
+  sprint(morph_path, "%s/%s", $s1, $s2)
+
+  sf = new StringFunctions()
+  extension = new String()
+
+  sscanf(morph_path, "%s", extension.s)
+  sf.right(extension.s, sf.len(extension.s)-4)
+
+  if(strcmp(extension.s, ".ASC") == 0 ){
+    extension.s = ".asc"
+    sf.left(morph_path, sf.len(morph_path)-3)
+    sprint(morph_path,"%s%s",morph_path,"asc")
+    print "USING LOWERCASE EXTENSION", morph_path
+  }
+
+
+  if( strcmp(extension.s, ".asc") == 0 ) {
+    morph = new Import3d_Neurolucida3()
+  } else if( strcmp(extension.s, ".swc" ) == 0) {
+    morph = new Import3d_SWC_read()
+  } else {
+    printf(extension.s)
+    printf("Unsupported file format: Morphology file has to end with .asc or .swc" )
+    quit()
+  }
+
+  morph.quiet = 1
+  morph.input(morph_path)
+
+  import = new Import3d_GUI(morph, 0)
+  import.instantiate(this)
+}
+
+/*
+ * Assignment of mechanism values based on distance from the soma
+ * Matches the BluePyOpt method
+ */
+proc distribute_distance(){local x localobj sl
+  strdef stmp, distfunc, mech
+
+  sl = $o1
+  mech = $s2
+  distfunc = $s3
+  this.soma[0] distance(0, 0.5)
+  sprint(distfunc, "%%s %s(%%f) = %s", mech, distfunc)
+  forsec sl for(x, 0) {
+    sprint(stmp, distfunc, secname(), x, distance(x))
+    execute(stmp)
+  }
+}
+
+proc geom_nseg() {
+  this.geom_nsec() //To count all sections
+  //TODO: geom_nseg_fixed depends on segCounts which is calculated by
+  //  geom_nsec.  Can this be collapsed?
+  this.geom_nseg_fixed(40)
+  this.geom_nsec() //To count all sections
+}
+proc insertChannels() {
+    // this step is manual and obtained from init_mech_MatureMouseGC.hoc from Beining et al 2017
+
+    // Insert channels present in all channels
+
+    forsec this.allsec{
+        insert Cabuffer
+        insert k_ion
+        insert na_ion
+        insert ca_ion
+    }
+
+    // Insert somatic channels
+    forsec this.regsoma {
+        insert pas
+        insert Kir21
+        insert na8st
+        insert Kv21
+        insert Cabuffer
+        insert Cav22
+		insert Cav12
+		insert Cav13
+		insert Cav32
+		insert BK
+		insert SK2
+
+    }
+
+    forsec this.regGCL{
+		insert pas
+		insert Kir21
+		insert Kv42
+		insert Cav22
+		insert Cav12
+		insert Cav13
+		insert Cav32
+		insert SK2
+		insert Cabuffer
+    }
+
+    forsec this.regadendIML{
+		insert pas
+		insert Kir21
+		insert HCN
+		insert Kv42
+		insert Cav22
+		insert Cav12
+		insert Cav13
+		insert Cav32
+		insert SK2
+		insert Cabuffer
+    }
+
+    forsec this.regadendMML{
+		insert pas
+		insert Kir21
+		insert HCN
+		insert Kv42
+		insert Cav22
+		insert Cav12
+		insert Cav13
+		insert Cav32
+		insert SK2
+		insert Cabuffer
+    }
+
+    forsec this.regadendOML{
+		insert pas
+		insert Kir21
+		insert HCN
+		insert Kv42
+		insert Cav22
+		insert Cav12
+		insert Cav13
+		insert Cav32
+		insert SK2
+		insert Cabuffer
+    }
+
+    forsec this.regaxon{
+        insert pas
+        insert Kir21
+        insert na8st
+        insert Kv11
+        insert Kv14
+        insert Kv34
+        insert Kv723
+        insert Cabuffer
+		insert Cav22
+		insert Cav13
+		insert Cav32
+		insert BK
+		insert SK2
+    }
+
+    forsec this.regaxonh{
+        insert pas
+        insert Kir21
+        insert na8st
+        insert Kv11
+        insert Kv14
+        insert Kv34
+        insert Kv723
+        insert Cabuffer
+		insert Cav22
+		insert Cav13
+		insert Cav32
+		insert BK
+		insert SK2
+		insert Cabuffer
+    }
+
+}
+
+proc setupBiophysics() {
+
+    forsec CellRef.somatic {
+		cm = 0.9
+		Ra = 200
+		g_pas = 1.38462e-05
+		e_pas = -80
+		gkbar_Kir21 = 0.000141561
+		mg_i_Kir21 = 4
+		spm_i_Kir21 = 1
+		gsub_Kir21 = 0.25
+		fac_Kir21 = 0.005
+		vshiftbs_Kir21 = 0
+		vshiftbb_Kir21 = 0
+		b_Kir21 = 0.105
+		shiftmg_Kir21 = 0.5
+		cas_Kir21 = 0.142857
+		As_Kir21 = 0.2
+		vShift_na8st = 22
+		vShift_inact_na8st = 0
+		a1_0_na8st = 45.8498
+		a1_1_na8st = 0.0239354
+		b1_0_na8st = 0.0144095
+		b1_1_na8st = 0.0884761
+		a2_0_na8st = 19.8084
+		a2_1_na8st = 0.0221771
+		b2_0_na8st = 0.565017
+		b2_1_na8st = 0.061084
+		a3_0_na8st = 71.8119
+		a3_1_na8st = 0.0659379
+		b3_0_na8st = 0.753118
+		b3_1_na8st = 0.0364798
+		bh_0_na8st = 2.9713
+		bh_1_na8st = 0.6443
+		bh_2_na8st = 0.0594
+		ah_0_na8st = 1.586
+		ah_1_na8st = 2306.7
+		ah_2_na8st = 0.0493
+		gbar_na8st = 0.088128
+		gkbar_Kv21 = 0.00709091
+		brat_Cabuffer = 200
+		tau_Cabuffer = 240
+		gbar_Cav22 = 0.0003
+		hTau_Cav22 = 80
+		VDI_Cav12 = 1
+		gbar_Cav12 = 2e-05
+		kf_Cav12 = 0.0005
+		VDI_Cav13 = 0.85
+		gbar_Cav13 = 1.6e-05
+		kf_Cav13 = 0.0005
+		gbar_Cav32 = 2.2e-05
+		gabkbar_BK = 0.0039
+		gakbar_BK = 0.0156
+		diff_BK = 1.5
+		base_BK = 4
+		gkbar_SK2 = 8.33333e-07
+		diff_SK2 = 3
+		Q10_SK2 = 5
+		fac_SK2 = 2.5
+		diro2_SK2 = 0.1
+		invc3_SK2 = 0.09
+		invc1_SK2 = 0.32
+		invc2_SK2 = 0.32
+		dirc4_SK2 = 320
+    }
+
+
+}

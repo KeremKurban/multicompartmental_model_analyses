@@ -38,6 +38,10 @@ import logging
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 
+# Paths
+
+mod_mech_dir = 'mods/'
+
 # SELECT MORPH
 morph_path = '1-L2-C4-N1.swc'
 morph_name = morph_path.split('.')[0]
@@ -48,9 +52,10 @@ somatic_loc = ephys.locations.NrnSeclistLocation('somatic', seclist_name='somati
 basal_loc = ephys.locations.NrnSeclistLocation('basal', seclist_name='basal')
 apical_loc = ephys.locations.NrnSeclistLocation('apical', seclist_name='apical')
 axon_loc = ephys.locations.NrnSeclistLocation('axon', seclist_name='axon')
-ais_loc = ephys.locations.NrnSeclistLocation('AIS', seclist_name='ais') # TODO: check if name is true
+# ais_loc = ephys.locations.NrnSeclistLocation('AIS', seclist_name='ais') # TODO: check if name is true
 
-#TODO: should we add basal, apical, AIS sectios here. I added to constrain if we see them
+dend_loc = [basal_loc,apical_loc]
+all_loc = [somatic_loc,basal_loc,apical_loc,axon_loc]
 
 # MECHANISMS TO BE USED
 
@@ -69,13 +74,13 @@ cm_param = ephys.parameters.NrnSectionParameter(
         name='cm',
         param_name='cm',
         value=1.0,
-        locations=[somatic_loc],
+        locations=all_loc,
         frozen=True)
 
 gnabar_param = ephys.parameters.NrnSectionParameter(                                    
         name='gnabar_hh',
         param_name='gnabar_hh',
-        locations=[somatic_loc],
+        locations=all_loc,
         bounds=[0.05, 0.125],
         frozen=False)     
 
@@ -83,7 +88,7 @@ gkbar_param = ephys.parameters.NrnSectionParameter(
         name='gkbar_hh',
         param_name='gkbar_hh',
         bounds=[0.01, 0.075],
-        locations=[somatic_loc],
+        locations=all_loc,
         frozen=False)
 
 params_list = [cm_param, gnabar_param, gkbar_param]

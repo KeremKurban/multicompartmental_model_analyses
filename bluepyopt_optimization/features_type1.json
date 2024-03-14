@@ -1,0 +1,148 @@
+{
+    "efeatures" : [
+        {
+            "efel_feature_name": "Spikecount",
+            "protocol_name": "IDrest_0.02",
+            "recording_name": "soma.v",
+            "threshold_efeature_std": 0.1,
+            "default_std_value": 0.001,
+            "mean": 5.0,
+            "original_std": 0.9,
+            "sample_size": 19,
+            "efeature_name": "Spikecount",
+            "efel_settings": {
+              "strict_stiminterval": true,
+              "Threshold": -30.0,
+              "interp_step": 0.025,
+              "stim_start": 700.0,
+              "stim_end": 1200.0
+            }
+          },
+          {
+            "efel_feature_name": "Spikecount",
+            "protocol_name": "IDrest_0.03",
+            "recording_name": "soma.v",
+            "threshold_efeature_std": 0.1,
+            "default_std_value": 0.001,
+            "mean": 7.3,
+            "original_std": 0.8,
+            "sample_size": 19,
+            "efeature_name": "Spikecount",
+            "efel_settings": {
+              "strict_stiminterval": true,
+              "Threshold": -30.0,
+              "interp_step": 0.025,
+              "stim_start": 700.0,
+              "stim_end": 1200.0
+            }
+          },
+          {
+            "efel_feature_name": "Spikecount",
+            "protocol_name": "IDrest_0.04",
+            "recording_name": "soma.v",
+            "threshold_efeature_std": 0.1,
+            "default_std_value": 0.001,
+            "mean": 9.05,
+            "original_std": 0.9,
+            "sample_size": 19,
+            "efeature_name": "Spikecount",
+            "efel_settings": {
+              "strict_stiminterval": true,
+              "Threshold": -30.0,
+              "interp_step": 0.025,
+              "stim_start": 700.0,
+              "stim_end": 1200.0
+            }
+          },
+          {
+            "efel_feature_name": "Spikecount",
+            "protocol_name": "IDrest_0.05",
+            "recording_name": "soma.v",
+            "threshold_efeature_std": 0.1,
+            "default_std_value": 0.001,
+            "mean": 10.7,
+            "original_std": 0.9,
+            "sample_size": 19,
+            "efeature_name": "Spikecount",
+            "efel_settings": {
+              "strict_stiminterval": true,
+              "Threshold": -30.0,
+              "interp_step": 0.025,
+              "stim_start": 700.0,
+              "stim_end": 1200.0
+            }
+          },
+          {
+            "efel_feature_name": "Spikecount",
+            "protocol_name": "IDrest_0.06",
+            "recording_name": "soma.v",
+            "threshold_efeature_std": 0.1,
+            "default_std_value": 0.001,
+            "mean": 12.3,
+            "original_std": 1.02,
+            "sample_size": 19,
+            "efeature_name": "Spikecount",
+            "efel_settings": {
+              "strict_stiminterval": true,
+              "Threshold": -30.0,
+              "interp_step": 0.025,
+              "stim_start": 700.0,
+              "stim_end": 1200.0
+            }
+          },
+          {
+            "efel_feature_name": "Spikecount",
+            "protocol_name": "IDrest_0.09",
+            "recording_name": "soma.v",
+            "threshold_efeature_std": 0.1,
+            "default_std_value": 0.001,
+            "mean": 39.4,
+            "original_std": 3.5,
+            "sample_size": 19,
+            "efeature_name": "Spikecount",
+            "efel_settings": {
+              "strict_stiminterval": true,
+              "Threshold": -30.0,
+              "interp_step": 0.025,
+              "stim_start": 700.0,
+              "stim_end": 1700.0
+            }
+          },
+          {
+            "efel_feature_name": "Spikecount",
+            "protocol_name": "IDrest_0.11",
+            "recording_name": "soma.v",
+            "threshold_efeature_std": 0.1,
+            "default_std_value": 0.001,
+            "mean": 45.3,
+            "original_std": 3.9,
+            "sample_size": 19,
+            "efeature_name": "Spikecount",
+            "efel_settings": {
+              "strict_stiminterval": true,
+              "Threshold": -30.0,
+              "interp_step": 0.025,
+              "stim_start": 700.0,
+              "stim_end": 1700.0
+            }
+          },
+          {
+            "efel_feature_name": "Spikecount",
+            "protocol_name": "IDrest_0.14",
+            "recording_name": "soma.v",
+            "threshold_efeature_std": 0.1,
+            "default_std_value": 0.001,
+            "mean": 54.4,
+            "original_std": 5.1,
+            "sample_size": 19,
+            "efeature_name": "Spikecount",
+            "efel_settings": {
+              "strict_stiminterval": true,
+              "Threshold": -30.0,
+              "interp_step": 0.025,
+              "stim_start": 700.0,
+              "stim_end": 1700.0
+            }
+          }
+        ]
+}
